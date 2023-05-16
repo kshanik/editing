@@ -1,0 +1,20 @@
+﻿text,start,end,font,size,x,y,color,shadow,box,bold,italic,show
+KHEER,1,100,Arial,150,0.5,0.19,ffffffff,1,0,1,0,1
+By Bindu Sharma,1,100,Arial,50,0.5,0.06,ffffffff,1,0,0,1,1
+Rice,200,400,Arial,60,0.1,0.1,ff0000ff,1,0,1,1,1
+Potato,500,600,Arial,70,0.5,0.5,ffffffff,1,1,0,0,1
+Salt,700,800,Arial,70,0.5,0.5,ffffffff,1,1,1,1,1
+,,,,,,,,,,,,
+image,start,end,x,y,scale_x,scale_y,show,,,,,
+rite_bite5.png,1,800,833,465,0.8,0.8,1,,,,,
+rite_bite_2.png,801,900,0,23,1,1,1,,,,,
+subscribe.png,801,900,-1,-364,1,1,1,,,,,
+bell.png,801,900,156,-362,0.5,0.5,1,,,,,
+,,,,,,,,,,,,
+color,start,end,x,y,scale_x,scale_y,,,,,,
+ffffffff,800,900,0,0,1,1,,,,,,
+,,,,,,,,,,,,
+sound,start,end,sound,show,,,,,,,,
+background.mp3,1,800,1,1,,,,,,,,
+,,,,,,,,,,,,
+video,start,end,sound,show,,,,,,,,
