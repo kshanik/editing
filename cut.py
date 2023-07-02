@@ -1,9 +1,10 @@
+import math
 import datetime
 import os
 import shutil
 import csv
 import bpy
-import pathlib
+import pandas as pd
 
 
 class Clip:
@@ -70,32 +71,29 @@ def apply_fade_in_to_clip(clip_transition_overlap):
     bpy.context.active_sequence_strip.frame_start -= clip_transition_overlap
     bpy.ops.sequencer.fades_add(type="IN")
 
-def main():
+def cut(excel, sheet):
     """
     Python code to create short clips from videos and stich them back to back
     with a transition
     """
-    print(pathlib.Path().absolute()) 
-    video_folder_path = r""
-    if len(video_folder_path) == 0:
-        raise TypeError('Please provide path!')
+    excel_dir = os.path.dirname(excel)
+    video_folder_path = excel_dir + os.sep + sheet
 
-    # uncomment the next two lines when running on macOS or Linux
-    # user_folder = os.path.expanduser("~")
-    # video_folder_path = f"{user_folder}/tmp/my_videos"
+    os.chdir(video_folder_path)
 
     set_up_output_params(video_folder_path)
     clips = []
-    with open(os.path.join(video_folder_path, "editing.csv"), newline='') as csvfile:
-        spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
-        row_count = 0
-        for row in spamreader:
-            if (row_count > 0):
-                clips.append(Clip(row[0],row[1],row[2],row[3],row[4]))
-            row_count += 1
+    rows = pd.read_excel(excel,sheet)
+    items = rows.values.tolist()
+    for l in items:
+        print(type(l[0]),type(l[1]),type(l[2]),type(l[3]),type(l[4]))
+        if isinstance(l[0], float) and math.isnan(l[0]):
+            break
+        else:
+            clips.append(Clip(l[0],l[1],l[2],l[3],l[4]))
 
     for c in clips:
-        print (c.file, c.start, c.end, c.sound)
+        print (c.file, c.start, c.end, c.sound, c.show)
 
     sequence_editor = find_sequence_editor()
 
@@ -104,10 +102,10 @@ def main():
     }
     clean_sequencer(sequence_editor_context)
     clean_proxies(video_folder_path)
-
     start_frame_pos = 0
     for clip in clips:
-        if clip.show == '1':
+        print(clip)
+        if clip.show == 1:
             start = int(clip.start)
             end   = int(clip.end)
             count = end-start+1
@@ -138,10 +136,10 @@ def main():
     # Set the final frame
     if bpy.context.active_sequence_strip:
         bpy.context.scene.frame_end = bpy.context.active_sequence_strip.frame_final_end
-
+    print('Done cutting!')
     # Render the clip sequence
     # bpy.ops.render.render(animation=True)
 
 
 if __name__ == "__main__":
-    main()
+    cut()
